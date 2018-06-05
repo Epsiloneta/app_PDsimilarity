@@ -143,18 +143,19 @@ def points_PD(df,dim=None):
 ## autodistance 
 # \TODO do with weighted kernel too
 # sigma_range = np.linspace(0.01,2,30)
-def create_auto_dist(auto_dist,data_path,list_files,weighted=False,sigma=.5,delimiter=','):
+def create_auto_dist(auto_dist,data_path,list_files,weighted=False,sigma=.5,delimiter=',',dim=1):
     """
     list_files = 
     auto_dist (dict)
     dir_results (where are PDs), short_name (name dataset)
     sigma: kernel parameter
     """
+    # print dim 
     for file_name1 in list_files:
         complete_path = os.path.join(data_path,file_name1)
         df = read_PDs(complete_path,delimiter=delimiter)
         name1 = os.path.splitext(file_name1)[0]
-        D = points_PD(df,dim=1)
+        D = points_PD(df,dim)
         auto_dist[(name1,sigma)] = kernel_reininghaus(sigma,D,D)
     return(auto_dist)
 

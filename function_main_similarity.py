@@ -90,7 +90,7 @@ def main_function_similarity(data_path,format_type,output_path=None,sim_weighted
             print list_files
             ### prepare computation
             auto_dist = dict()
-            create_auto_dist(auto_dist,data_path,list_files,weighted=False,sigma=sigma,delimiter=delimiter)
+            create_auto_dist(auto_dist,data_path,list_files,weighted=False,sigma=sigma,delimiter=delimiter,dim=dim)
 
         ### compute similarity by pairs
         names1 = [0]*int(number_files*(number_files-1)/2.)
@@ -120,9 +120,13 @@ def main_function_similarity(data_path,format_type,output_path=None,sim_weighted
                 G = points_PD(df2,dim=dim)
                 ## Compute similarity
                 if(normalized):
+                    # print 'parameters'
+                    # print sigma,F,G,auto_dist[(name1,sigma)],auto_dist[(name2,sigma)]
                     k = kernel_reininghaus_normalized(sigma,F,G,with_auto_dist=auto_dist[(name1,sigma)]+ auto_dist[(name2,sigma)] )
+                    # print 'kernel ',k
                 else:
                     k = kernel_reininghaus(sigma,F,G)
+                    # print 'not norm ',k
 
                 ## upgrade similarity matrix 
                 sim_matrix[i,j] = k
